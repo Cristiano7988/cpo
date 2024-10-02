@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import router from './router'
+
+const logado = localStorage.getItem('token')
+const logout = () => {
+  localStorage.removeItem('token')
+  router.push('/')
+}
 </script>
 
 <template>
@@ -12,7 +18,10 @@ import HelloWorld from './components/HelloWorld.vue'
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink v-if="logado" to="/about">About</RouterLink>
+        <a href="" @click="logout" v-if="logado">Logout</a>
+        <RouterLink v-if="!logado" to="/login">Login</RouterLink>
+        <RouterLink v-if="!logado" to="/register">Register</RouterLink>
       </nav>
     </div>
   </header>
