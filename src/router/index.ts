@@ -41,7 +41,7 @@ router.beforeEach((to, from, next) => {
     if (token) next()
     else next('/login')
   } else {
-    if (token && ['login', 'register'].includes(to.name)) return router.back()
+    if (token && ['login', 'register'].includes(String(to.name))) return router.back()
     next()
   }
 })
