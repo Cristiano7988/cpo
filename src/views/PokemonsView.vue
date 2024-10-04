@@ -3,11 +3,16 @@ import { ref, watch } from 'vue'
 
 const pokemons = ref([])
 const offset = ref(1)
+const total = ref(0)
+const limit = 10
+const pages = ref(0)
 
 const getPokemons = (interval) => {
   const P = new Pokedex.Pokedex(interval)
 
   P.getPokemonsList().then((response) => {
+    total.value = response.count
+    pages.value = Math.round(response.count / limit)
     pokemons.value = response.results
     return pokemons
   })
@@ -15,16 +20,14 @@ const getPokemons = (interval) => {
 
 getPokemons({
   offset,
-  limit: 10
+  limit
 })
 
-const avanca = () => offset.value++
-const volta = () => offset.value--
-
+const skip = (e) => (offset.value = Number(e.target.dataset.offset))
 watch(offset, (newOffset) => {
   getPokemons({
     offset: newOffset,
-    limit: 10
+    limit
   })
 })
 </script>
@@ -38,8 +41,43 @@ watch(offset, (newOffset) => {
       </div>
     </div>
     <div class="navigator">
-      <b v-if="offset > 1" @click="volta">Voltar</b>
-      <b v-if="pokemons.length" @click="avanca">Avançar</b>
+      <template v-for="page in pages" :key="page">
+        <span
+          :class="{ current: page == offset }"
+          @click="skip"
+          :data-offset="page"
+          v-if="page == offset + 2"
+          >{{ page }}</span
+        >
+        <span
+          :class="{ current: page == offset }"
+          @click="skip"
+          :data-offset="page"
+          v-if="page == offset + 1"
+          >{{ page }}</span
+        >
+        <span
+          :class="{ current: page == offset }"
+          @click="skip"
+          :data-offset="page"
+          v-if="page == offset"
+          >{{ page }}</span
+        >
+        <span
+          :class="{ current: page == offset }"
+          @click="skip"
+          :data-offset="page"
+          v-if="page == offset - 1"
+          >{{ page }}</span
+        >
+        <span
+          :class="{ current: page == offset }"
+          @click="skip"
+          :data-offset="page"
+          v-if="page == offset - 2"
+          >{{ page }}</span
+        >
+      </template>
     </div>
   </div>
 </template>
@@ -55,11 +93,19 @@ watch(offset, (newOffset) => {
 }
 .navigator {
   margin-top: 20px;
-  display: flex;
-  gap: 10px;
 }
 
-b {
+.current {
+  background: #41b883;
+}
+
+b,
+span {
   cursor: pointer;
+}
+
+span {
+  padding: 0px 5px;
+  border-radius: 5px;
 }
 </style>
