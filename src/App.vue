@@ -18,7 +18,7 @@ const logout = () => {
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink v-if="logado" to="/about">About</RouterLink>
+        <RouterLink v-if="logado" to="/pokemons">Pokemons</RouterLink>
         <a href="" @click="logout" v-if="logado">Logout</a>
         <RouterLink v-if="!logado" to="/login">Login</RouterLink>
         <RouterLink v-if="!logado" to="/register">Register</RouterLink>
