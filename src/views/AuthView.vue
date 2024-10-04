@@ -23,7 +23,7 @@ const auth = () => {
   if (password.value.length <= 8) return (error.value = 'Senha muito curta')
 
   localStorage.setItem('token', email.value + password.value) // Aqui salvamos o token na LocalStorage após resposta do backend, o mesmo token será validado validado na middleware das rotas protegidas
-  location.pathname = '/about'
+  location.pathname = '/pokemons'
 }
 </script>
 

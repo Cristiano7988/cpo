@@ -33,7 +33,7 @@ watch(offset, (newOffset) => {
 </script>
 
 <template>
-  <div class="about">
+  <div class="pokemons">
     <h1>Pokemons</h1>
     <div v-if="pokemons">
       <div v-for="(pokemon, index) in pokemons" :key="index">
@@ -84,7 +84,7 @@ watch(offset, (newOffset) => {
 
 <style>
 @media (min-width: 1024px) {
-  .about {
+  .pokemons {
     min-height: 100vh;
     display: flex;
     justify-content: center;
